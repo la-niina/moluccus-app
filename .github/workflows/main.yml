@@ -27,5 +27,14 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
-        name: Moluccus-Debug-APK
+        name: Moluccus.apk
         path: Moluccus.apk
+      id: upload_apk
+
+    - name: Set output
+      run: echo "::set-output name=artifact_url::$(echo ${GITHUB_SERVER_URL}/${{ github.repository }}/raw/master/${{ steps.upload_apk.outputs.uploaded_filename }})"
+      id: set_output
+
+    - name: Output URL
+      run: echo ${{ steps.set_output.outputs.artifact_url }}
+
