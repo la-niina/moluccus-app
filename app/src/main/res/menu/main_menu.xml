@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ic_notification"
+        android:icon="@drawable/round_notifications"
+        android:title="message"
+        app:actionViewClass="android.widget.RelativeLayout"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/ic_message"
+        android:icon="@drawable/round_message"
+        android:title="message"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/ic_profile"
+        android:icon="@drawable/round_profile"
+        android:title="profile"
+        app:showAsAction="always" />
+</menu>

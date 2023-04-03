@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    tools:context=".base.InfoActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_margin="5dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/cover_holder"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="TODO"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/default_cover"
+                            app:layout_constraintVertical_bias="0.16000003"
+                            tools:ignore="ContentDescription,HardcodedText" />
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/upload_cover"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            app:indicatorColor="@color/blue"
+                            app:trackColor="@color/lightest_pearl"
+                            app:trackThickness="@dimen/margin_4dp" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="@dimen/padding_10dp"
+                            app:cardCornerRadius="100dp">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="@dimen/height_30dp"
+                                android:layout_height="@dimen/height_30dp"
+                                android:padding="@dimen/corner_radius_5dp"
+                                app:tint="?android:colorAccent"
+                                android:src="@drawable/round_close" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="100dp"
+                    app:cardElevation="40dp">
+
+                    <RelativeLayout
+                        android:layout_width="85dp"
+                        android:layout_height="85dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/avatar_holder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/background_image"
+                            app:layout_constraintVertical_bias="0.16000003" />
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/upload_avatar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            app:indicatorColor="@color/blue"
+                            app:trackColor="@color/lightest_pearl"
+                            app:trackThickness="@dimen/margin_4dp" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/username_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="username">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/username_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:maxLength="18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/userhandle_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="user handle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/userhandle_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:maxLength="12" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/bio_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="bio">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/bio_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_gravity="start"
+                        android:gravity="start"
+                        android:maxLength="160"
+                        android:textAlignment="textStart" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/lacation_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="location">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/location_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/website_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="website">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/website_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/birthdate_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="birth date">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/birthdate_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/update_profile_button"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Update Profile"
+                    app:cornerRadius="5dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- Use <include> and <exclude> to control what is backed up. -->
+        <include domain="sharedpref" path="."/>
+        <include domain="file" path="Firebase/" />
+        <exclude domain="sharedpref" path="device.xml"/>
+    </cloud-backup>
+    <!--
+    <device-transfer>
+        <include .../>
+        <exclude .../>
+    </device-transfer>
+    -->
+</data-extraction-rules>

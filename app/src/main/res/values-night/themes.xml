@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Moluccus" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="md_corner_radius">16dp</item>
+    </style>
+    <style name="Theme.FullScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge"/>
+</resources>

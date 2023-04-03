@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/notification_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24"
+        android:src="@drawable/round_notifications" />
+    <TextView
+        android:id="@+id/notification_badge_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/notification_icon"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:elevation="20dp"
+        android:gravity="end"
+        android:textColor="@color/green"
+        android:text="4" />
+</RelativeLayout>

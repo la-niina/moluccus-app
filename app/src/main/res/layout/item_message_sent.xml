@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/current_user_chat_layout"
+    android:layout_gravity="end"
+    android:gravity="end"
+    android:forceDarkAllowed="true"
+    android:layout_alignParentEnd="true"
+    android:layout_margin="5dp"
+    android:background="@color/fui_transparent"
+    android:elevation="@dimen/height_40dp"
+    android:orientation="vertical"
+    tools:ignore="UnusedAttribute">
+
+    <LinearLayout
+        android:id="@+id/chat_sender_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="300dp"
+        android:layout_marginStart="100dp"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:background="@drawable/current_user_chat_card"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/current_user_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:elevation="20dp"
+            android:layout_gravity="start"
+            android:text="hello world"
+            android:textColorHighlight="@color/white"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/timestampViewReception"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/fui_transparent"
+            android:padding="5dp"
+            android:text="12:33 AM : Viewed"
+            android:textAlignment="textEnd"
+            android:textColor="@color/blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/chat_sender_layout"
+        android:layout_marginStart="100dp">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Elevated"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="5dp"
+            app:cardCornerRadius="100dp">
+
+            <TextView
+                android:id="@+id/reactedReception"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:text="❤️" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+</RelativeLayout>

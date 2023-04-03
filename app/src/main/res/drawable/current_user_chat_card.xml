@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners
+        android:topLeftRadius="20dp"
+        android:topRightRadius="@dimen/height_20dp"
+        android:bottomRightRadius="1dp"
+        android:bottomLeftRadius="@dimen/height_20dp"/>
+    <solid
+        android:color="@color/fui_bgGitHub"/>
+</shape>

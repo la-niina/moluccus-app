@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven { url 'https://jitpack.io' }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven { url 'https://jitpack.io' }
+    }
+}
+rootProject.name = "moluccus"
+include ':app'

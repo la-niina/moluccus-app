@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "870256442359",
+    "project_id": "moluccus-app",
+    "storage_bucket": "moluccus-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870256442359:android:6827d71c9140a4fc138cf2",
+        "android_client_info": {
+          "package_name": "moluccus.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870256442359-9d8iu14do4776pt49fqbsvq61hlfr67e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvUmxrsxcOu1R9VlVjRlugSERLXeaF1mQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870256442359-9d8iu14do4776pt49fqbsvq61hlfr67e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

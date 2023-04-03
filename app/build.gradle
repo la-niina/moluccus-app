@@ -1,0 +1,117 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'moluccus.app'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "moluccus.app"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packagingOptions {
+        exclude("META-INF/kotlinx-io.kotlin_module")
+        exclude("META-INF/atomicfu.kotlin_module")
+        exclude("META-INF/kotlinx-coroutines-io.kotlin_module")
+        exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.9.0' // Core KTX
+    implementation 'androidx.appcompat:appcompat:1.7.0-alpha02' // AppCompat
+    implementation 'com.google.android.material:material:1.8.0' // Material Design Components
+    implementation 'androidx.palette:palette-ktx:1.0.0' // Palette KTX
+
+    // Third-party libraries
+    implementation 'com.afollestad.material-dialogs:core:3.3.0' // Material Dialogs
+    implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0' // Material Dialogs Bottom Sheets
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // ConstraintLayout
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1' // LiveData KTX
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1' // ViewModel KTX
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3' // Navigation KTX
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3' // Navigation UI KTX
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0' // Support Library v4
+    implementation 'androidx.activity:activity-ktx:1.7.0' // Activity KTX
+
+    // Material Dialogs DateTime
+    implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
+
+    // Image loading libraries
+    implementation 'com.squareup.picasso:picasso:2.8' // Picasso
+    implementation 'com.github.bumptech.glide:glide:4.14.2' // Glide
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.13.2' // Glide OkHttp Integration
+    kapt 'com.github.bumptech.glide:compiler:4.13.2' // Glide Annotation Processor
+
+    // Firebase libraries
+    implementation platform('com.google.firebase:firebase-bom:31.2.3') // Firebase BoM
+    implementation 'com.google.code.gson:gson:2.10' // Gson
+    implementation 'com.google.firebase:firebase-auth-ktx' // Firebase Authentication KTX
+    implementation 'com.google.firebase:firebase-database-ktx' // Firebase Realtime Database KTX
+    implementation 'com.google.firebase:firebase-storage-ktx' // Firebase Storage KTX
+    implementation 'com.google.firebase:firebase-messaging-ktx' // Firebase Cloud Messaging KTX
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    def room_version = "2.4.0"
+
+    implementation "androidx.room:room-runtime:2.5.1"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+
+    // Emoji support
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation "com.google.android.gms:play-services-oss-licenses:17.0.0" // Google Play services Open Source Licenses
+    implementation "androidx.emoji:emoji-appcompat:1.1.0" // Emoji AppCompat
+    implementation "androidx.emoji:emoji-bundled:1.1.0"
+    implementation "androidx.emoji:emoji:1.1.0"
+
+    // Firebase UI libraries
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2' // FirebaseUI Database
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2' // FirebaseUI Auth
+    implementation 'com.firebaseui:firebase-ui-storage:8.0.2' // FirebaseUI Storage
+
+    // webrtc
+    implementation 'org.webrtc:google-webrtc:1.0.32006'
+    //Ktor dependencies (you can retorfit instead)
+    implementation("io.ktor:ktor-client-android:$ktor_version")
+    implementation("io.ktor:ktor-client-websocket:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-gson:$ktor_version")
+
+    // AndroidX specific
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

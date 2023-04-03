@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_margin="@dimen/padding_10dp"
+        app:cardCornerRadius="@dimen/height_20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@drawable/default_cover" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/photoProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:indicatorColor="@color/blue"
+                app:trackColor="@color/lightest_pearl"
+                app:trackThickness="@dimen/margin_4dp" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/padding_10dp"
+                app:cardCornerRadius="100dp">
+
+                <ImageView
+                    android:layout_width="@dimen/height_30dp"
+                    android:layout_height="@dimen/height_30dp"
+                    android:padding="@dimen/corner_radius_5dp"
+                    android:src="@drawable/round_close" />
+            </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
