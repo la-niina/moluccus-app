@@ -23,13 +23,6 @@ jobs:
     - name: Compress APK
       run: zip -9 -r Moluccus.apk app/build/outputs/apk/debug/app-debug.apk
 
-    - name: Sign APK
-      uses: r0adkll/sign-release-action@v1.4.2
-      with:
-        files: Moluccus.apk
-        name: Moluccus
-        password: 123456789
-
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
