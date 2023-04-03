@@ -1,0 +1,37 @@
+name: Build Moluccus
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug
+
+    - name: Compress APK
+      run: zip -9 -r Moluccus.apk app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Sign APK
+      uses: r0adkll/sign-release-action@v1.4.2
+      with:
+        files: Moluccus.apk
+        name: Moluccus
+        password: 123456789
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: Moluccus-Debug-APK
+        path: Moluccus.apk
