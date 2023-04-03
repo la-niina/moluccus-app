@@ -21,6 +21,15 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleDebug
 
+    - name: Extract Version Name
+      run: |
+        VERSION_NAME=$(./gradlew -q printVersionName)
+        aapt2 dump badging app/build/outputs/apk/debug/app-debug.apk | grep versionName | awk '{print $4}' | sed s/versionName=//g | sed s/\'//g > version.txt
+
+    - name: Read Version Name
+      id: version
+      run: echo "::set-output name=value::$(cat version.txt)"
+
     - name: Compress APK
       run: zip -9 -r Moluccus.apk app/build/outputs/apk/debug/app-debug.apk
 
@@ -38,3 +47,12 @@ jobs:
     - name: Output URL
       run: echo ${{ steps.set_output.outputs.artifact_url }}
 
+    - name: Create Release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ steps.version.outputs.value }}
+        release_name: Release ${{ steps.version.outputs.value }}
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+   
