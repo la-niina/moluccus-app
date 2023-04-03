@@ -1,53 +1,58 @@
 package moluccus.app.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInstaller
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkRequest
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
+import moluccus.app.BuildConfig
 import moluccus.app.R
 import moluccus.app.base.AuthActivity
 import moluccus.app.base.DetailsActivity
 import moluccus.app.databinding.ActivityMainBinding
-import moluccus.app.route.CheckHandle
 import moluccus.app.service.MyNetworkCallback
 import moluccus.app.util.Extensions.toast
 import moluccus.app.util.FirebaseUtils
-import moluccus.app.util.FirebaseUtils.firebaseUser
 import okhttp3.*
+import org.json.JSONObject
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.net.HttpURLConnection
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var installingDialog: Dialog
+    private lateinit var receiver: BroadcastReceiver
 
     private var TAG = "MainActivity"
     val requestPermissionLauncher = registerForActivityResult(
@@ -159,86 +164,111 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        checkAndUpdate(this@MainActivity, "", BuildConfig.APPLICATION_ID)
     }
 
-    fun checkAndUpdate(context: Context, apkUrl: String, packageName: String, currentVersionCode: Int) {
-        val okHttpClient = OkHttpClient.Builder().build()
-        val request = Request.Builder().url(apkUrl).build()
-        okHttpClient.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                // Handle download failure
-                Log.e(TAG, "Failed to download APK from $apkUrl", e)
-            }
+    private fun checkAndUpdate(context: Context, repositoryUrl: String, packageName: String) {
+        val latestReleaseUrl = getLatestReleaseUrl(repositoryUrl)
+        val currentVersionCode = getCurrentVersionCode(context, packageName)
+        val latestVersionCode = getLatestVersionCode(latestReleaseUrl)
 
-            override fun onResponse(call: Call, response: Response) {
-                val responseCode = response.code()
-                if (responseCode != HttpURLConnection.HTTP_OK) {
-                    // Handle unsuccessful download
-                    Log.e(TAG, "Unsuccessful download attempt from $apkUrl with response code $responseCode")
-                    return
-                }
-
-                // Get the directory for the app's private files
-                val fileDirectory = context.filesDir
-
-                // Create the file to store the APK
-                val apkFile = File(fileDirectory, "$packageName.apk")
-
-                // Check if the downloaded APK version is greater than or equal to the current version
-                val packageManager = context.packageManager
-                val packageInfo = packageManager.getPackageInfo(packageName, 0)
-                val currentVersionCode = packageInfo.versionCode
-                val apkPackageInfo = packageManager.getPackageArchiveInfo(apkFile.absolutePath, 0)
-                val apkVersionCode = apkPackageInfo?.versionCode
-                if (apkVersionCode!! <= currentVersionCode) {
-                    // The downloaded APK version is not greater than the current version, so we don't need to update
-                    return
-                } else {
-                    // Prompt the user to install the app
-                    val builder = AlertDialog.Builder(context)
-                    builder.setMessage("An update is available. Would you like to download it now?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes") { dialog, id ->
-                            // Write the APK to the file
-                            val inputStream = response.body()?.byteStream()
-                            inputStream?.use { input ->
-                                FileOutputStream(apkFile).use { output ->
-                                    input.copyTo(output)
-                                }
-                            }
-                            // Install the APK
-                            install(context, apkFile, packageName)
-                        }
-                        .setNegativeButton("No") { dialog, id ->
-                            // User cancelled the dialog
-                        }
-                    val alert = builder.create()
-                    alert.show()
-                }
-            }
-        })
+        if (latestVersionCode > currentVersionCode) {
+            showUpdateDialog(context, latestReleaseUrl)
+        }
     }
 
-    fun install(context: Context, apkFile: File, packageName: String) {
-        val packageInstaller = context.packageManager.packageInstaller
-        val packageParams = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-        val sessionId = packageInstaller.createSession(packageParams)
-        val session = packageInstaller.openSession(sessionId)
-        val out = session.openWrite(packageName, 0, -1)
-        val input = FileInputStream(apkFile)
-        input.copyTo(out)
-        session.fsync(out)
-        input.close()
-        out.close()
-        val intent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
-            data = Uri.parse("package:$packageName")
+    private fun getLatestReleaseUrl(repositoryUrl: String): String {
+        val httpClient = OkHttpClient()
+        val request = Request.Builder()
+            .url("https://api.github.com/repos/$repositoryUrl/releases/latest")
+            .build()
+        val response = httpClient.newCall(request).execute()
+        val responseBodyString = response.body()?.string() ?: ""
+        val json = JSONObject(responseBodyString)
+        return json.getJSONArray("assets").getJSONObject(0).getString("browser_download_url")
+    }
+
+    private fun getCurrentVersionCode(context: Context, packageName: String): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            context.packageManager.getPackageInfo(packageName, 0).longVersionCode.toInt()
+        } else {
+            return context.packageManager.getPackageInfo(packageName, 0).versionCode
+        }
+    }
+
+    private fun getLatestVersionCode(latestReleaseUrl: String): Int {
+        val httpClient = OkHttpClient()
+        val request = Request.Builder()
+            .url(latestReleaseUrl)
+            .build()
+        val response = httpClient.newCall(request).execute()
+        val fileSize = response.header("Content-Length")?.toLong()
+        val versionCode = fileSize?.toInt() ?: 0
+        return versionCode
+    }
+
+    private fun showUpdateDialog(context: Context, latestReleaseUrl: String) {
+        AlertDialog.Builder(context)
+            .setTitle("Update available")
+            .setMessage("A new version of Moluccus is available. Do you want to download and install it now?")
+            .setPositiveButton("Download") { _, _ ->
+                downloadApk(context, latestReleaseUrl)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun downloadApk(context: Context, apkUrl: String) {
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val request = DownloadManager.Request(Uri.parse(apkUrl))
+            .setTitle("Moluccus")
+            .setDescription("Downloading Moluccus update")
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, "Moluccus.apk")
+        downloadManager.enqueue(request)
+        val apkFile = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "Moluccus.apk")
+        installApk(context, apkFile, packageName)
+    }
+
+    private fun installApk(context: Context, apkFile: File, packageName: String) {
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            FileProvider.getUriForFile(context, "${packageName}.fileprovider", apkFile)
+        } else {
+            Uri.fromFile(apkFile)
+        }
+
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/vnd.android.package-archive")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+
+        // Show installing dialog
+        showInstallingDialog()
+
         context.startActivity(intent)
     }
 
+    private fun showInstallingDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.installing_apk_dialog, null)
+        installingDialog = Dialog(this).apply {
+            setContentView(dialogView)
+            setCancelable(false)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            show()
+        }
 
-
+        // Register broadcast receiver
+        receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == DownloadManager.ACTION_DOWNLOAD_COMPLETE) {
+                    installingDialog.dismiss()
+                    unregisterReceiver(this)
+                }
+            }
+        }
+        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host)
