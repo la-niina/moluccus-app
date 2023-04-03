@@ -5,7 +5,7 @@ on:
     branches: [master]
     
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.MOLUCCUS_TOKEN }}
 
 jobs:
   build:
@@ -58,7 +58,7 @@ jobs:
         draft: false
         prerelease: false
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.MOLUCCUS_TOKEN }}
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
