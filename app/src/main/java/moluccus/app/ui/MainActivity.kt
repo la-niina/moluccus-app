@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLatestReleaseUrl(repositoryUrl: String): String {
-        val token = System.getenv("GITHUB_TOKEN") ?: throw RuntimeException("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")
+        val token = System.getenv("MOLUCCUS_TOKEN") ?: throw RuntimeException("GITHUB_TOKEN is not set")
         val httpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
