@@ -47,9 +47,6 @@ jobs:
       run: echo "::set-output name=artifact_url::$(echo ${GITHUB_SERVER_URL}/${{ github.repository }}/raw/master/${{ steps.upload_apk.outputs.uploaded_filename }})"
       id: set_output
 
-    - name: Output URL
-      run: echo ${{ steps.set_output.outputs.artifact_url }}
-
     - name: Create Release
       uses: actions/create-release@v1
       with:
@@ -59,7 +56,14 @@ jobs:
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.MOLUCCUS_TOKEN }}
+      id: create_release
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
-   
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Moluccus.apk
+        asset_name: Moluccus.apk
+        asset_content_type: application/vnd.android.package-archive
+      env:
+        GITHUB_TOKEN: ${{ secrets.MOLUCCUS_TOKEN }}
