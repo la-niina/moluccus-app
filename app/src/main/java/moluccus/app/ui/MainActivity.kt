@@ -35,8 +35,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import moluccus.app.BuildConfig
 import moluccus.app.R
+import moluccus.app.ai.OpenAiApi
 import moluccus.app.base.AuthActivity
 import moluccus.app.base.DetailsActivity
 import moluccus.app.databinding.ActivityMainBinding
@@ -45,6 +49,8 @@ import moluccus.app.util.Extensions.toast
 import moluccus.app.util.FirebaseUtils
 import okhttp3.*
 import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -65,15 +71,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private lateinit var connectivityManager: ConnectivityManager
-    private var networkRequest: NetworkRequest? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
-        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        networkRequest = NetworkRequest.Builder().build()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host)
         appBarConfiguration = AppBarConfiguration(navController.graph)
-        connectivityManager.registerNetworkCallback(networkRequest!!, MyNetworkCallback())
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -147,6 +146,12 @@ class MainActivity : AppCompatActivity() {
                                     // Log and toast
                                    // println("TAG Fetching FCM registration token $token")
                                 })
+
+                                val retrofit = Retrofit.Builder()
+                                    .baseUrl("https://api.openai.com/v1/")
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build()
+                                val openAiApi = retrofit.create(OpenAiApi::class.java)
                             }
                         } else {
                             toast("incomplete account")
@@ -164,11 +169,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        checkAndUpdate(this@MainActivity, "", BuildConfig.APPLICATION_ID)
+        checkAndUpdate(this@MainActivity, "la-niina/moluccus-app", BuildConfig.APPLICATION_ID)
     }
 
     private fun checkAndUpdate(context: Context, repositoryUrl: String, packageName: String) {
-        val latestReleaseUrl = getLatestReleaseUrl(repositoryUrl)
+        val latestReleaseUrl = runBlocking { getLatestReleaseUrl(repositoryUrl) }
         val currentVersionCode = getCurrentVersionCode(context, packageName)
         val latestVersionCode = getLatestVersionCode(latestReleaseUrl)
 
@@ -178,13 +183,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLatestReleaseUrl(repositoryUrl: String): String {
-        val httpClient = OkHttpClient()
+        val token = System.getenv("GITHUB_TOKEN") ?: throw RuntimeException("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")
+        val httpClient = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+
         val request = Request.Builder()
             .url("https://api.github.com/repos/$repositoryUrl/releases/latest")
             .build()
+
         val response = httpClient.newCall(request).execute()
         val responseBodyString = response.body()?.string() ?: ""
         val json = JSONObject(responseBodyString)
+
         return json.getJSONArray("assets").getJSONObject(0).getString("browser_download_url")
     }
 
