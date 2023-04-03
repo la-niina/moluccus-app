@@ -53,8 +53,12 @@ jobs:
     - name: Create Release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ steps.version.outputs.value }}
-        release_name: Release ${{ steps.version.outputs.value }}
+        tag_name: v1.0.0
+        release_name: Release 
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
