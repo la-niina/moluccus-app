@@ -34,11 +34,25 @@ Moluccus is designed with the latest technology stack and utilizes the Firebase 
 
 ## Features
 
-[-] **Secure Messaging**
-[] **Advertising System**
-[] **Payment System**
-[] **Research and Information**
-[] **Tracking System**
+- [*] **Secure Messaging**
+- [ ] **Advertising System**
+- [ ] **Payment System**
+- [ ] **Research and Information**
+- [ ] **Tracking System**
+- [ ] Firebase:
+  - [*] Database
+  - [*] Authentication
+  - [*] Messaging
+  - [ ] FCM (Firebase Cloud Messaging)
+  - [*] Storage
+- [ ] Google Drive API
+- [*] Social Media:
+  - [*] Posts
+  - [*] Comments
+  - [*] Likes
+  - [*] Follow
+  - [*] Messaging
+
 
 ## Installation
 
