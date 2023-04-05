@@ -56,7 +56,7 @@ class AuthActivity : AppCompatActivity() {
         val user: FirebaseUser? = firebaseAuth.currentUser
         when {
             user != null -> {
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this@AuthActivity, MainActivity::class.java))
                 finish()
             }
             else -> {
@@ -130,30 +130,6 @@ class AuthActivity : AppCompatActivity() {
                                 "email_address" to userEmail,
                                 "password_holder" to userPassword,
                                 "create_at" to date,
-                                "usr_information" to hashMapOf(
-                                    "usr_bio" to "",
-                                    "usr_telephone" to "",
-                                    "usr_handle" to "",
-                                    "usr_name" to "",
-                                    "usr_dob" to "",
-                                    "usr_category" to "",
-                                    "usr_location" to "",
-                                    "usr_website" to "",
-                                    "usr_avatar" to "",
-                                    "usr_cover" to ""
-                                    ),
-                                "usr_impression" to hashMapOf(
-                                    "followers_count" to "0",
-                                    "following_count" to "0",
-                                    "posts_count" to "0",
-                                    "live_count" to "0",
-                                    "followings" to hashMapOf(
-                                        "user_id" to ""
-                                    ),
-                                    "followers" to hashMapOf(
-                                        "user_id" to ""
-                                    )
-                                )
                             )
                             firebaseDatabase.child("users").child(user!!.uid).setValue(map)
                                 .addOnCompleteListener { isSuccessful ->

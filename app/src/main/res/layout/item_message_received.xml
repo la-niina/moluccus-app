@@ -23,8 +23,7 @@
         android:layout_marginEnd="100dp"
         android:background="@drawable/other_user_chat_card"
         android:maxWidth="300dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/other_user_chat"
@@ -32,6 +31,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:elevation="20dp"
+            android:padding="10dp"
             android:layout_gravity="start"
             android:text=""
             android:textColor="@color/white"
@@ -47,6 +47,33 @@
             android:text="12:33 AM : Viewed"
             android:textAlignment="textStart"
             android:textColor="@color/white" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imageLayout"
+            style="@style/Widget.Material3.CardView.Elevated"
+            android:layout_width="250dp"
+            android:layout_margin="3dp"
+            android:visibility="gone"
+            android:layout_height="230dp"
+            app:cardCornerRadius="20dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/photoProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:indicatorColor="@color/blue"
+                    app:trackColor="@color/lightest_pearl"
+                    app:trackThickness="@dimen/margin_4dp" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
     <LinearLayout

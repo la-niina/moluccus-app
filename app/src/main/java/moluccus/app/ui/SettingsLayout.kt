@@ -43,16 +43,6 @@ class SettingsLayout : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        initTotalStorageUsed()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        initTotalStorageUsed()
-    }
-
     private fun initTotalStorageUsed() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val storageRef = FirebaseUtils.firebaseStorage
@@ -75,7 +65,7 @@ class SettingsLayout : Fragment() {
                     }
                 }
             }
-            .addOnFailureListener { exception ->
+            .addOnFailureListener {
                 // Handle any errors
             }
     }

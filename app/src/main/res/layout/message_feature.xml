@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -50,7 +49,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/imagesender"
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    android:layout_height="250dp"
+                    app:cardCornerRadius="20dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/image_holder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"/>
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/photoProgressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            app:indicatorColor="@color/blue"
+                            app:trackColor="@color/lightest_pearl"
+                            app:trackThickness="@dimen/margin_4dp" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contentBlogs"
                     android:layout_width="match_parent"
@@ -68,6 +94,7 @@
                     android:visibility="gone">
 
                     <ImageView
+                        android:id="@+id/attached_docs"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="5dp"

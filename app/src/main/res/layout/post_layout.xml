@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Elevated"
                     android:layout_width="match_parent"
@@ -32,13 +34,49 @@
                     android:layout_margin="5dp"
                     app:cardCornerRadius="10dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/contentBlogs"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:hint="@string/post_message"
-                        android:padding="@dimen/padding_10dp" />
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/contentBlogs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="@string/post_message"
+                            android:padding="@dimen/padding_10dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_10dp"
+                            android:clickable="false"
+                            android:padding="@dimen/padding_10dp"
+                            android:text="share a video by pasting the url below\n-.mp4 formate only" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/videourl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="add a video url of the day..."
+                            android:padding="@dimen/padding_10dp" />
+                    </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </LinearLayout>
@@ -64,9 +102,9 @@
                         android:layout_height="wrap_content"
                         android:divider="@null"
                         android:orientation="horizontal"
-                        tools:listitem="@layout/image_post"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:reverseLayout="true" />
+                        app:reverseLayout="true"
+                        tools:listitem="@layout/image_post" />
                 </HorizontalScrollView>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
@@ -78,35 +116,38 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/pearl"/>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/pearl" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height_50dp"
             android:layout_gravity="center"
             android:gravity="start|center"
-            android:layout_height="@dimen/image_height_50dp"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/corner_radius_5dp"
+                android:text="Public"
                 android:textSize="@dimen/text_size_14sp"
-                android:textStyle="bold"
-                android:text="Public"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/pearl"/>
+            android:background="@color/pearl" />
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height_80dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_height="@dimen/image_height_80dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -133,7 +174,7 @@
                     android:layout_width="@dimen/image_height_50dp"
                     android:layout_height="@dimen/image_height_50dp"
                     android:src="@drawable/round_gif"
-                    app:tint="#00B8D4"/>
+                    app:tint="#00B8D4" />
             </LinearLayout>
 
             <LinearLayout
@@ -146,7 +187,7 @@
                     android:layout_width="@dimen/image_height_50dp"
                     android:layout_height="@dimen/image_height_50dp"
                     android:src="@drawable/round_poll"
-                    app:tint="#00B8D4"/>
+                    app:tint="#00B8D4" />
             </LinearLayout>
 
             <RelativeLayout
@@ -160,22 +201,24 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="@dimen/corner_radius_5dp"
                     android:orientation="horizontal">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
                         <ProgressBar
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:textSize="8dp"
-                            android:text="250"/>
+                            android:text="250"
+                            android:textSize="8dp" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>
-
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

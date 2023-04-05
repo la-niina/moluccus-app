@@ -42,7 +42,6 @@ import moluccus.app.util.OpenDocumentContract
 import moluccus.app.util.users
 import java.util.*
 
-
 class InfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInfoBinding
     private val LOCATION_PERMISSION_REQUEST_CODE = 123

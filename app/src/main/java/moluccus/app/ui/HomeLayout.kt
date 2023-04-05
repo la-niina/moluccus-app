@@ -18,8 +18,7 @@ import moluccus.app.adapter.FeedsAdapter
 import moluccus.app.databinding.HomeLayoutBinding
 import moluccus.app.route.CommitPost
 import moluccus.app.util.FirebaseUtils.firebaseDatabase
-
-
+@Suppress("DEPRECATION")
 class HomeLayout : Fragment() {
     private var _binding: HomeLayoutBinding? = null
     private val binding get() = _binding!!
@@ -35,10 +34,10 @@ class HomeLayout : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        this.setHasOptionsMenu(true)
 
         initRecyclerView()
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_post)
         }
     }

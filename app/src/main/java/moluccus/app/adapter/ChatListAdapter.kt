@@ -97,9 +97,7 @@ class ChatListAdapter(var context: Context, var chatList: MutableList<ChatListAd
                     }
 
                     val commentpp = userData?.usr_information?.usr_avatar.toString()
-                    if (commentpp == null) {
-                        // Nothing
-                    } else {
+                    if (commentpp != null) {
                         val options = RequestOptions()
                             .error(R.drawable.default_cover)
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

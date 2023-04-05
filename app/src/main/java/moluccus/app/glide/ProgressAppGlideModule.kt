@@ -26,13 +26,11 @@ class ProgressAppGlideModule : AppGlideModule() {
                 val response: Response = chain.proceed(request)
                 val listener: ResponseProgressListener = DispatchingProgressListener()
                 response.newBuilder()
-                    .body(response.body()?.let {
-                        request.url()?.let { it1 ->
-                            OkHttpProgressResponseBody(
-                                it1,
-                                it, listener
-                            )
-                        }
+                    .body(response.body?.let {
+                        OkHttpProgressResponseBody(
+                            request.url,
+                            it, listener
+                        )
                     })
                     .build()
             }
@@ -120,11 +118,11 @@ class ProgressAppGlideModule : AppGlideModule() {
             return responseBody.contentLength()
         }
 
-        override fun source(): BufferedSource? {
+        override fun source(): BufferedSource {
             if (bufferedSource == null) {
-                bufferedSource = Okio.buffer(source(responseBody.source()))
+                bufferedSource = source(responseBody.source()).buffer()
             }
-            return bufferedSource
+            return bufferedSource as BufferedSource
         }
 
         private fun source(source: Source): Source {

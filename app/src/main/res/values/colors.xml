@@ -19,4 +19,7 @@
     <color name="light_orange">#FD9449</color>
     <color name="apricot">#FBCEB1</color>
     <color name="light_apricot">#FFF2E6</color>
+    <color name="black_overlay">#80000000</color>
+    <color name="exo_media_button_normal">#FF0000</color>
+    <color name="exo_media_button_pressed">#0000FF</color>
 </resources>

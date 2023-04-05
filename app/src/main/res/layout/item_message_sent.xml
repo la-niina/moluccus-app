@@ -22,7 +22,6 @@
         android:maxWidth="300dp"
         android:layout_marginStart="100dp"
         android:layout_alignParentEnd="true"
-        android:padding="10dp"
         android:background="@drawable/current_user_chat_card"
         android:orientation="vertical">
 
@@ -34,6 +33,7 @@
             android:elevation="20dp"
             android:layout_gravity="start"
             android:text="hello world"
+            android:padding="10dp"
             android:textColorHighlight="@color/white"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -48,6 +48,33 @@
             android:text="12:33 AM : Viewed"
             android:textAlignment="textEnd"
             android:textColor="@color/blue" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/imageLayout"
+            style="@style/Widget.Material3.CardView.Elevated"
+            android:layout_width="250dp"
+            android:layout_margin="3dp"
+            android:visibility="gone"
+            android:layout_height="230dp"
+            app:cardCornerRadius="20dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/photoProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:indicatorColor="@color/blue"
+                    app:trackColor="@color/lightest_pearl"
+                    app:trackThickness="@dimen/margin_4dp" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
     <LinearLayout

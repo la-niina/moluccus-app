@@ -115,7 +115,7 @@ class ProfileUserLayout : AppCompatActivity() {
                                 .error(R.drawable.default_cover)
                                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 
-                            initLayoutFollowButton(value)
+                            initLayoutFollowButton()
                             upload_avatar.visibility = View.VISIBLE
                             try {
                                 GlideImageLoader(avatar_holder, upload_avatar).load(photo, options)
@@ -125,7 +125,7 @@ class ProfileUserLayout : AppCompatActivity() {
                             }
                         }
 
-                        initLayoutFollowButton(value)
+                        initLayoutFollowButton()
 
                         val pp = value.usr_information?.usr_cover?.trim().toString()
                         if (pp == null) {
@@ -136,7 +136,7 @@ class ProfileUserLayout : AppCompatActivity() {
                                 .error(R.drawable.default_cover)
                                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 
-                            initLayoutFollowButton(value)
+                            initLayoutFollowButton()
                             photoProgressBar.visibility = View.VISIBLE
                             try {
                                 GlideImageLoader(wallpaper_cover, photoProgressBar).load(pp, options)
@@ -160,7 +160,7 @@ class ProfileUserLayout : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initLayoutFollowButton(value: users) {
+    private fun initLayoutFollowButton() {
         val userUid = intent.getStringExtra("user_uid").toString()
         val currentUser : FirebaseUser?= FirebaseUtils.firebaseAuth.currentUser
         val currentUserUid = currentUser?.uid ?: ""
@@ -262,7 +262,6 @@ class ProfileUserLayout : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        val user: FirebaseUser? = FirebaseUtils.firebaseAuth.currentUser
 
         // Listen for changes in the Firebase Realtime Database
         firebaseDatabase.child("commits").orderByKey()

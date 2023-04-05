@@ -1,9 +1,12 @@
 package moluccus.app.ui
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.Toast
@@ -58,6 +61,10 @@ class PostLayout : Fragment() {
         return binding.root
     }
 
+    private fun isYouTubeUrl(url: String): Boolean {
+        return url.startsWith(".mp4")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val user: FirebaseUser? = FirebaseUtils.firebaseAuth.currentUser
@@ -90,6 +97,31 @@ class PostLayout : Fragment() {
             }
         }
 
+        binding.videourl.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            @SuppressLint("SetTextI18n")
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0!!.isNotEmpty()){
+                    binding.uploadResources.isEnabled = true
+                    imageList.clear()
+                }else if (p0.length >= 6){
+                    val inputText = binding.videourl.text.toString()
+                    if (isYouTubeUrl(inputText)) {
+                        // Set the video URL in the view
+                        binding.videourl.setText(inputText)
+                    } else {
+                        // Clear the input text
+                        binding.videourl.setText("")
+                        // Set an error message in the view
+                        binding.videourl.setText("Only ending with .mp4 url video formats are supported.")
+                    }
+                } else if (p0.length <= 4){
+                    binding.videourl.setText("paste url...")
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {}
+        })
+
         binding.uploadResources.setOnClickListener {
             // openDocument.launch(arrayOf("image/*"))
             val mimeTypes = arrayOf("image/*", "application/gallery")
@@ -116,7 +148,45 @@ class PostLayout : Fragment() {
 
     @SuppressLint("SimpleDateFormat")
     private fun initPhotosAndVideos() {
-        if (imageList.isEmpty()) {
+        if (binding.videourl.text!!.isEmpty()){
+            if (imageList.isEmpty()) {
+                val df: DateFormat = SimpleDateFormat("d MMM yyyy, HH:mm")
+                val date: String = df.format(Calendar.getInstance().time).toString()
+                val user: FirebaseUser? = FirebaseUtils.firebaseAuth.currentUser
+
+                val commitPost = CommitPost(
+                    id = firebaseDatabase.child("commits").push().key ?: "",
+                    content = binding.contentBlogs.text?.trim().toString(),
+                    imageUrl = listOf(), // Add empty list of image URLs
+                    videoUrl = "",
+                    authorId = user?.uid ?: "",
+                    timeStamp = date.trim(),
+                    likesCount = 0,
+                    commentsCount = 0,
+                )
+
+                firebaseDatabase.child("commits").child(commitPost.id)
+                    .setValue(commitPost)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            findNavController().navigate(R.id.action_home)
+                        } else {
+                            Toast.makeText(requireContext(), "not posted", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            } else {
+                val user: FirebaseUser? = FirebaseUtils.firebaseAuth.currentUser
+                val storageReference = FirebaseUtils.firebaseStorage
+                    .child("galleries")
+                    .child(user!!.uid)
+                    .child("$user.uid-posts-photo")
+                val uploadingTheImagesToStorage = imageList.toList()
+                putImagesInStorage(
+                    storageReference,
+                    uploadingTheImagesToStorage
+                ) // Call putImagesInStorage()
+            }
+        } else {
             val df: DateFormat = SimpleDateFormat("d MMM yyyy, HH:mm")
             val date: String = df.format(Calendar.getInstance().time).toString()
             val user: FirebaseUser? = FirebaseUtils.firebaseAuth.currentUser
@@ -124,11 +194,8 @@ class PostLayout : Fragment() {
             val commitPost = CommitPost(
                 id = firebaseDatabase.child("commits").push().key ?: "",
                 content = binding.contentBlogs.text?.trim().toString(),
-                imageAvatarUrl = bindingUserAvatar,
-                user_handle = bindingUserHandle,
-                user_name = bindingUsername,
                 imageUrl = listOf(), // Add empty list of image URLs
-                videoUrl = "",
+                videoUrl = binding.videourl.text?.trim().toString(),
                 authorId = user?.uid ?: "",
                 timeStamp = date.trim(),
                 likesCount = 0,
@@ -144,17 +211,6 @@ class PostLayout : Fragment() {
                         Toast.makeText(requireContext(), "not posted", Toast.LENGTH_SHORT).show()
                     }
                 }
-        } else {
-            val user: FirebaseUser? = FirebaseUtils.firebaseAuth.currentUser
-            val storageReference = FirebaseUtils.firebaseStorage
-                .child("galleries")
-                .child(user!!.uid)
-                .child("$user.uid-posts-photo")
-            val uploadingTheImagesToStorage = imageList.toList()
-            putImagesInStorage(
-                storageReference,
-                uploadingTheImagesToStorage
-            ) // Call putImagesInStorage()
         }
     }
 
@@ -164,14 +220,12 @@ class PostLayout : Fragment() {
         uploadingTheImagesToStorage: List<Imagedecoderers>
     ) {
         val imagesUrls = mutableListOf<String>()
-
         // upload each image to Cloud Storage and add its URL to imagesUrls
         uploadingTheImagesToStorage.forEachIndexed { index, image ->
             val imageRef = storageReference.child("image_$index")
-
             // put image in storage
             imageRef.putFile(image.imageUri!!)
-                .addOnSuccessListener { taskSnapshot ->
+                .addOnSuccessListener {
                     // get download URL of uploaded image
                     imageRef.downloadUrl
                         .addOnSuccessListener { uri ->
@@ -187,9 +241,6 @@ class PostLayout : Fragment() {
                                 val commitPost = CommitPost(
                                     id = firebaseDatabase.child("commits").push().key ?: "",
                                     content = binding.contentBlogs.text?.trim().toString(),
-                                    imageAvatarUrl = bindingUserAvatar,
-                                    user_handle = bindingUserHandle,
-                                    user_name = bindingUsername,
                                     imageUrl = imagesUrls,
                                     videoUrl = "",
                                     authorId = user?.uid ?: "",
@@ -207,6 +258,7 @@ class PostLayout : Fragment() {
                                     addData("user_name", commitPost.user_name)
                                     addData("message_content", "${commitPost.user_handle} ${commitPost.timeStamp}")
                                 })
+
                                 // add CommitPost to database
                                 firebaseDatabase.child("commits").child(commitPost.id)
                                     .setValue(commitPost)

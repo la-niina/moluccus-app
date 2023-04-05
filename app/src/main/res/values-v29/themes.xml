@@ -6,4 +6,11 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
     <style name="Theme.FullScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge"/>
+
+    <style name="dialog" parent="Theme.Material3.DayNight.Dialog.Alert">
+        <item name="android:windowEnterAnimation">@anim/bottom_up</item>
+        <item name="android:windowExitAnimation">@anim/bottom_down</item>
+        <item name="android:windowMinWidthMajor">85%</item>
+        <item name="android:windowMinWidthMinor">85%</item>
+    </style>
 </resources>

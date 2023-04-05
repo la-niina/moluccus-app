@@ -1,0 +1,7 @@
+/**
+ * Copyright (c) [2023] [moluccus by la niina]. All rights reserved.
+ *
+ * This software is the confidential and proprietary information of [moluccus by la niina].
+ * You shall not disclose such confidential information and shall use it only in
+ * accordance with the terms of the license agreement you entered into with [moluccus by la niina].
+ */

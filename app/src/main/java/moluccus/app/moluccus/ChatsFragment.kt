@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import moluccus.app.adapter.ChatListAdapter
 import moluccus.app.databinding.FragmentChatBinding
-import moluccus.app.route.ChatList
 import moluccus.app.route.ChatListAdapterData
 import moluccus.app.route.Message
 import moluccus.app.util.FirebaseUtils

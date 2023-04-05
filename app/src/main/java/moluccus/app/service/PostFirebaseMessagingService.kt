@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -18,10 +19,13 @@ import androidx.core.app.NotificationManagerCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import moluccus.app.R
 import moluccus.app.ui.MainActivity
+import moluccus.app.util.FirebaseUtils
 
 class PostFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -51,7 +55,20 @@ class PostFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
-        // sendRegistrationToServer(token)
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val uid = user.uid
+            val databaseRef = FirebaseUtils.firebaseDatabase.child("users").child(uid)
+            val tokenMap = HashMap<String, Any>()
+            tokenMap["notificationToken"] = token
+            databaseRef.updateChildren(tokenMap)
+                .addOnSuccessListener {
+                    Log.d("TAG", "Notification token updated successfully")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("TAG", "Error updating notification token: ${e.message}", e)
+                }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -94,8 +111,8 @@ class PostFirebaseMessagingService : FirebaseMessagingService() {
 
                         return
                     } else if (shouldShowRequestPermissionRationale(applicationContext as MainActivity, Manifest.permission.POST_NOTIFICATIONS)) {
-                        val builder = AlertDialog.Builder(applicationContext)
-                        builder.setTitle("Allow notifications")
+                        val builders = AlertDialog.Builder(applicationContext)
+                        builders.setTitle("Allow notifications")
                             .setMessage("This app requires permission to display notifications. Do you want to grant permission now?")
                             .setPositiveButton("OK") { dialog, which ->
                                 // Directly ask for the permission

@@ -127,62 +127,71 @@ class DetailsActivity : AppCompatActivity() {
                         snapshot.child("users").child(uid).getValue(
                             users::class.java
                         )
-                    if (value != null) {
-                        // important holders
-                        username_holder.setText(value.usr_information!!.usr_name!!.trim())
-                        userhandle_holder.setText(value.usr_information.usr_handle!!.trim())
-                        bio_holder.setText(value.usr_information.usr_bio!!.trim())
-
-                        // the other details
-                        location_holder.setText(value.usr_information.usr_location!!.trim())
-                        website_holder.setText(value.usr_information.usr_website.toString().trim())
-                        birthdate_holder.setText(value.usr_information.usr_dob!!.trim())
-
-                        val photo = value.usr_information.usr_cover.toString()
-                        if (photo == null) {
-                            binding.coverHolder.let {
-                                Glide.with(this@DetailsActivity).load(R.drawable.default_cover)
-                                    .into(it)
-                            }
-                            binding.uploadCover.visibility = View.GONE
-                        } else {
-                            val options = RequestOptions()
-                                .error(R.drawable.default_cover)
-                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-
-                            binding.coverHolder.visibility = View.VISIBLE
-                            //using custom glide image loader to indicate progress in time
-                            try {
-                                GlideImageLoader(binding.coverHolder, binding.uploadCover).load(photo, options)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                binding.coverHolder.setImageResource(R.drawable.default_cover)
-                            }
-                        }
-
-                        val pp = value.usr_information.usr_avatar.toString()
-                        if (pp == null) {
-                            binding.avatarHolder.let {
-                                Glide.with(this@DetailsActivity).load(R.drawable.default_cover)
-                                    .into(it)
-                            }
-                            binding.avatarHolder.visibility = View.GONE
-                        } else {
-                            val options = RequestOptions()
-                                .error(R.drawable.default_cover)
-                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-
-                            binding.avatarHolder.visibility = View.VISIBLE
-                            //using custom glide image loader to indicate progress in time
-                            try {
-                                GlideImageLoader(binding.avatarHolder, binding.uploadAvatar).load(pp, options)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                binding.avatarHolder.setImageResource(R.drawable.default_cover)
-                            }
-                        }
+                    val checkValue = value?.usr_information
+                    if (checkValue == null) {
+                      //
+                    } else if (value.usr_impression != null) {
+                        //
+                    } else if (checkValue.usr_name.isNullOrEmpty() || checkValue.usr_handle.isNullOrEmpty()) {
+                      //
                     } else {
-                        // TODO: check
+                        if (value != null) {
+                            // important holders
+                            username_holder.setText(value.usr_information.usr_name!!.trim())
+                            userhandle_holder.setText(value.usr_information.usr_handle!!.trim())
+                            bio_holder.setText(value.usr_information.usr_bio!!.trim())
+
+                            // the other details
+                            location_holder.setText(value.usr_information.usr_location!!.trim())
+                            website_holder.setText(value.usr_information.usr_website.toString().trim())
+                            birthdate_holder.setText(value.usr_information.usr_dob!!.trim())
+
+                            val photo = value.usr_information.usr_cover.toString()
+                            if (photo == null) {
+                                binding.coverHolder.let {
+                                    Glide.with(this@DetailsActivity).load(R.drawable.default_cover)
+                                        .into(it)
+                                }
+                                binding.uploadCover.visibility = View.GONE
+                            } else {
+                                val options = RequestOptions()
+                                    .error(R.drawable.default_cover)
+                                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+
+                                binding.coverHolder.visibility = View.VISIBLE
+                                //using custom glide image loader to indicate progress in time
+                                try {
+                                    GlideImageLoader(binding.coverHolder, binding.uploadCover).load(photo, options)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    binding.coverHolder.setImageResource(R.drawable.default_cover)
+                                }
+                            }
+
+                            val pp = value.usr_information.usr_avatar.toString()
+                            if (pp == null) {
+                                binding.avatarHolder.let {
+                                    Glide.with(this@DetailsActivity).load(R.drawable.default_cover)
+                                        .into(it)
+                                }
+                                binding.avatarHolder.visibility = View.GONE
+                            } else {
+                                val options = RequestOptions()
+                                    .error(R.drawable.default_cover)
+                                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+
+                                binding.avatarHolder.visibility = View.VISIBLE
+                                //using custom glide image loader to indicate progress in time
+                                try {
+                                    GlideImageLoader(binding.avatarHolder, binding.uploadAvatar).load(pp, options)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    binding.avatarHolder.setImageResource(R.drawable.default_cover)
+                                }
+                            }
+                        } else {
+                            // TODO: check
+                        }
                     }
                 } else {
                     toast("incomplete account")

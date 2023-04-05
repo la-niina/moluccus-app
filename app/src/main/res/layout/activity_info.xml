@@ -127,6 +127,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lines="1"
+                        android:inputType="text|textNoSuggestions"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                         android:maxLength="18" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,6 +144,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lines="1"
+                        android:inputType="text|textNoSuggestions"
+                        android:digits="abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                         android:maxLength="12" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,6 +191,8 @@
                         android:id="@+id/website_holder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textUri|textNoSuggestions|text"
+                        android:digits="abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                         android:lines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 

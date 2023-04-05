@@ -6,6 +6,8 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def headerFile = file('header.txt')
+
 android {
     namespace 'moluccus.app'
     compileSdk 33
@@ -15,21 +17,29 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     packagingOptions {
-        exclude("META-INF/kotlinx-io.kotlin_module")
-        exclude("META-INF/atomicfu.kotlin_module")
-        exclude("META-INF/kotlinx-coroutines-io.kotlin_module")
-        exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
+        //exclude("META-INF/kotlinx-io.kotlin_module")
+        //exclude("META-INF/atomicfu.kotlin_module")
+        //exclude("META-INF/kotlinx-coroutines-io.kotlin_module")
+        //exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            ndk.abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            ndk.abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -42,17 +52,71 @@ android {
     }
     buildFeatures {
         viewBinding true
-        dataBinding true
-
     }
     task printVersionName {
         doLast {
             println android.defaultConfig.versionName
         }
     }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a' //select ABIs to build APKs for
+            universalApk true //generate an additional APK that contains all the ABIs
+        }
+    }
+
+    // map for the version code
+    project.ext.versionCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4]
+
+    android.applicationVariants.all { variant ->
+        // assign different version code for each output
+        variant.outputs.each { output ->
+            output.outputFileName = "moluccus" + output.getFilter(com.android.build.OutputFile.ABI) + ".apk"
+
+            output.versionCodeOverride =
+                    project.ext.versionCodes.get(output.getFilter(com.android.build.OutputFile.ABI), 0) *
+                            1000000 + android.defaultConfig.versionCode
+        }
+    }
+    // Disable incremental Java compilation
+    compileOptions.incremental = true
+
+    task copyHeaders {
+        doLast {
+            fileTree(dir: 'src/main/java', include: '**/*.java').visit {
+                FileVisitDetails details ->
+                    def file = details.file
+                    if (file.canRead() && file.isFile()) {
+                        def contents = file.getText('UTF-8')
+                        file.write(headerFile.getText('UTF-8') + contents, 'UTF-8')
+                    }
+            }
+        }
+    }
+
+    task cleanHeaders {
+        doLast {
+            fileTree(dir: 'src/main/java', include: '**/*.java').visit {
+                FileVisitDetails details ->
+                    def file = details.file
+                    if (file.canRead() && file.isFile()) {
+                        def contents = file.getText('UTF-8')
+                        if (contents.startsWith(headerFile.getText('UTF-8'))) {
+                            file.write(contents.substring(headerFile.getText('UTF-8').length()), 'UTF-8')
+                        }
+                    }
+            }
+        }
+    }
+
+    task buildWithHeaders(dependsOn: ['clean', 'copyHeaders', 'build'])
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
+
     implementation 'androidx.core:core-ktx:1.9.0' // Core KTX
     implementation 'androidx.appcompat:appcompat:1.7.0-alpha02' // AppCompat
     implementation 'com.google.android.material:material:1.8.0' // Material Design Components
@@ -68,6 +132,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3' // Navigation UI KTX
     implementation 'androidx.legacy:legacy-support-v4:1.0.0' // Support Library v4
     implementation 'androidx.activity:activity-ktx:1.7.0' // Activity KTX
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Material Dialogs DateTime
     implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
@@ -86,6 +151,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx' // Firebase Storage KTX
     implementation 'com.google.firebase:firebase-messaging-ktx' // Firebase Cloud Messaging KTX
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     def room_version = "2.4.0"
 
@@ -93,7 +159,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 
     // Emoji support
     implementation 'com.google.android.gms:play-services-location:21.0.1'
@@ -107,15 +173,30 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2' // FirebaseUI Auth
     implementation 'com.firebaseui:firebase-ui-storage:8.0.2' // FirebaseUI Storage
 
-    // webrtc
-    implementation 'org.webrtc:google-webrtc:1.0.32006'
     //Ktor dependencies (you can retorfit instead)
-    implementation("io.ktor:ktor-client-android:$ktor_version")
-    implementation("io.ktor:ktor-client-websocket:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-client-gson:$ktor_version")
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // OkHttp
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Video Exo player Library
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.5'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.5'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.5'
+
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.5'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.16.0'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.16.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.2'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.16.1'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.16.1'
+
+    implementation 'com.arthenica:mobile-ffmpeg-min-gpl:4.4.LTS'
 
     // AndroidX specific
     testImplementation 'junit:junit:4.13.2'

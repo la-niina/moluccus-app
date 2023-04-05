@@ -65,6 +65,8 @@
                     android:layout_height="wrap_content"
                     android:lines="1"
                     android:maxLength="32"
+                    android:inputType="textEmailAddress|textNoSuggestions"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                     android:textColorHighlight="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,9 +90,10 @@
                     android:id="@+id/passwordHolder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
                     android:lines="1"
                     android:maxLength="24"
+                    android:inputType="textPassword|textNoSuggestions|textMultiLine"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                     android:textColorHighlight="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,7 +143,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="5dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -185,9 +188,10 @@
                     android:id="@+id/create_account_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
                     android:lines="1"
                     android:maxLength="32"
+                    android:inputType="textEmailAddress|textNoSuggestions"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                     android:textColorHighlight="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -212,8 +216,9 @@
                     android:id="@+id/create_account_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
                     android:lines="1"
+                    android:inputType="textPassword|textNoSuggestions|textMultiLine"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                     android:maxLength="24"
                     android:textColorHighlight="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -239,8 +244,9 @@
                     android:id="@+id/create_account_password_repeat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
                     android:lines="1"
+                    android:inputType="textPassword|textNoSuggestions|textMultiLine"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*()_-+={}[]|\:;’&lt;&gt;,.?/~`"
                     android:maxLength="24"
                     android:textColorHighlight="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>

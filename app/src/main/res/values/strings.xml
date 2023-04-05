@@ -57,4 +57,17 @@
     <string name="comment_text">Comment</string>
     <string name="pref_speakerphone_key">speakerphone_preference</string>
     <string name="pref_speakerphone_default">auto</string>
+    <string name="new_update_available_msg">new update</string>
+    <string name="open_with">open with</string>
+    <string name="update_msg">update</string>
+    <string name="latest_version_msg">latest version</string>
+    <string name="apply_and_restart_msg">restart</string>
+    <string name="latest_version_code_msg">latest code</string>
+    <string name="later_msg">latest message</string>
+    <string name="no_update_available_msg">no update</string>
+    <string name="please_try_again">try again</string>
+    <string name="okey_close_msg">okay close</string>
+    <string name="error_on_update_msg">error</string>
+    <string name="theres_an_error_msg">error</string>
+    <string name="okay_close_msg">ok</string>
 </resources>

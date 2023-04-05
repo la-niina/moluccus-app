@@ -2,9 +2,9 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/commitsLayout"
     style="@style/Widget.Material3.CardView.Elevated"
     android:layout_width="match_parent"
-    android:id="@+id/commitsLayout"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:orientation="vertical"
@@ -115,6 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/content_message"
                 android:layout_width="match_parent"
@@ -122,6 +123,41 @@
                 android:background="@color/fui_transparent"
                 android:padding="5dp"
                 android:text="@string/about_message" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/videoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <FrameLayout
+                            android:id="@+id/video_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/black">
+
+                            <com.google.android.exoplayer2.ui.PlayerView
+                                android:id="@+id/exo_player_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:resize_mode="fill"/>
+
+                        </FrameLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <LinearLayout
@@ -146,9 +182,9 @@
                         android:layout_height="wrap_content"
                         android:divider="@null"
                         android:orientation="horizontal"
-                        tools:listitem="@layout/image_post"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:reverseLayout="true" />
+                        app:reverseLayout="true"
+                        tools:listitem="@layout/image_post" />
                 </HorizontalScrollView>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>

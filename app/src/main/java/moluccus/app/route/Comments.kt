@@ -7,13 +7,11 @@ import com.google.firebase.database.IgnoreExtraProperties
 @IgnoreExtraProperties
 data class Comments(
     val id: String? = null,
+    val commitId: String? = null,
     val userId: String? = null,
-    val usr_name: String? = null,
-    val usr_handle: String? = null,
-    val usr_avatar: String? = null,
     val usr_reply_gif: String? = null,
     var likesCount: Int? = 0,
-    val reply_to_usr_handle: String? = null,
+    val authorId: String? = null,
     val content_comment: String? = null,
     val timestamp: String? = null,
     val commentsCount: Int? = 0,

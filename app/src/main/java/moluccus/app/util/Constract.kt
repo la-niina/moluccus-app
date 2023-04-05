@@ -1,6 +1,7 @@
 package moluccus.app.util
 
 import android.content.Context
+import java.io.File
 import java.util.regex.Pattern
 
 object Constract {
@@ -20,4 +21,9 @@ object Constract {
     fun isString(value: Any?): Boolean {
         return value is String
     }
+
+    fun dpToPx(context: Context, dp: Int): Int {
+        return (dp * context.resources.displayMetrics.density).toInt()
+    }
+
 }

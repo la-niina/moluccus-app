@@ -1,26 +1,35 @@
 pluginManagement {
     repositories {
         google()
+        //noinspection JcenterRepositoryObsolete
         jcenter()
         mavenCentral()
         gradlePluginPortal()
-        maven {
-            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-        }
+        maven {url "https://s01.oss.sonatype.org/content/repositories/snapshots/"}
+        maven {url "https://mvnrepository.com/artifact/com.arthenica/mobile-ffmpeg-min-gpl"}
         maven { url 'https://jitpack.io' }
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
+        //noinspection JcenterRepositoryObsolete
         jcenter()
         mavenCentral()
-        maven {
-            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-        }
+        maven {url "https://s01.oss.sonatype.org/content/repositories/snapshots/"}
+        maven {url "https://mvnrepository.com/artifact/com.arthenica/mobile-ffmpeg-min-gpl"}
         maven { url 'https://jitpack.io' }
     }
 }
+
+// Define the build cache directory
+buildCache {
+    local {
+        directory = "$rootDir/.gradle/build-cache"
+    }
+}
+
 rootProject.name = "moluccus"
 include ':app'
