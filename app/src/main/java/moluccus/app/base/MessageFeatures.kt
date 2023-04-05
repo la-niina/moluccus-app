@@ -81,8 +81,8 @@ class MessageFeatures : AppCompatActivity() {
                         snapshot.child("users").child(other_user_uid).getValue(users::class.java)
                     if (value != null) {
                         // Load the image using Glide
-                        val userimage = value.usr_information?.usr_avatar.toString()
-                        val imageView = CircularImageView(this@MessageFeatures, radius = 100f, size = 200)
+                      /**  val userimage = value.usr_information?.usr_avatar.toString()
+                        val imageView = CircularImageView(this@MessageFeatures, radius = 200f, size = 20)
 
                         Glide.with(this@MessageFeatures)
                             .load(userimage)
@@ -99,10 +99,10 @@ class MessageFeatures : AppCompatActivity() {
                                 override fun onLoadFailed(errorDrawable: Drawable?) {
                                     Log.e("TAG", "Error loading image")
                                 }
-                            })
-
+                            }) **/
 
                         binding.toolbar.title = value.usr_information?.usr_name?.trim().toString()
+                        binding.toolbar.subtitle = value.usr_information?.usr_handle?.trim().toString()
                     } else {
                         // Handle the case where the user data is missing or invalid
                         binding.toolbar.title = "Unknown User"
