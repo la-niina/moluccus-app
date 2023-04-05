@@ -61,20 +61,27 @@ class ProfileLayout : Fragment() {
                         //set the user information to the corresponding views
                         binding?.emailProfile?.text = value.email_address?.trim().toString()
                         binding?.dateJoined?.text = value.create_at?.trim().toString()
-                        binding?.usernameView?.text =
-                            value.usr_information!!.usr_name?.trim().toString()
-                        binding?.userhandleView?.text =
-                            value.usr_information.usr_handle?.trim().toString()
+                        binding?.usernameView?.text = value.usr_information!!.usr_name?.trim().toString()
+                        binding?.userhandleView?.text = value.usr_information.usr_handle?.trim().toString()
                         binding?.bioView?.text = value.usr_information.usr_bio?.trim().toString()
-                        binding?.locationView?.text =
-                            value.usr_information.usr_location?.trim().toString()
-                        binding?.websiteView?.text =
-                            value.usr_information.usr_website?.trim().toString()
+                        binding?.locationView?.text = value.usr_information.usr_location?.trim().toString()
+                        binding?.websiteView?.text = value.usr_information.usr_website?.trim().toString()
 
-                        binding?.profileFollowing?.text =
-                            value.usr_impression?.following_count.toString()
-                        binding?.profileFollowers?.text =
-                            value.usr_impression?.followers_count?.toString()
+                        value.usr_impression?.following_count.toString().let {
+                            if (it.isNullOrEmpty()){
+                                binding?.profileFollowing?.text = "0"
+                            } else {
+                                binding?.profileFollowing?.text = it
+                            }
+                        }
+
+                        value.usr_impression?.followers_count?.toString().let {
+                            if (it.isNullOrEmpty()){
+                                binding?.profileFollowers?.text = "0"
+                            } else {
+                                binding?.profileFollowers?.text = it
+                            }
+                        }
 
                         //load the user cover photo using Glide library
                         val photo = value.usr_information.usr_cover
