@@ -27,14 +27,14 @@ jobs:
     - name: Extract Version Name
       run: |
         VERSION_NAME=$(./gradlew -q printVersionName)
-        aapt2 dump badging app/build/outputs/apk/debug/moluccusnull.apk | grep versionName | awk '{print $4}' | sed s/versionName=//g | sed s/\'//g > version.txt
+        aapt2 dump badging app/build/outputs/apk/debug/app-debug.apk | grep versionName | awk '{print $4}' | sed s/versionName=//g | sed s/\'//g > version.txt
 
     - name: Read Version Name
       id: version
       run: echo "::set-output name=value::$(cat version.txt)"
 
     - name: Compress APK
-      run: zip -9 -r Moluccus.apk app/build/outputs/apk/debug/moluccusnull.apk
+      run: zip -9 -r Moluccus.apk app/build/outputs/apk/debug/app-debug.apk
 
     - name: Upload APK
       uses: actions/upload-artifact@v2

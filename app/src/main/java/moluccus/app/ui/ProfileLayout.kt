@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.sign
 
+@Suppress("DEPRECATION")
 class ProfileLayout : Fragment() {
     private var binding: ProfileLayoutBinding? = null
 
