@@ -158,7 +158,7 @@ class FeedsAdapter(var context: Context, var commitPosts: MutableList<CommitPost
             holder.layout_image_post.visibility = View.GONE
         }
 
-        if (commitsBlogs.videoUrl != null && commitsBlogs.imageUrl == null) {
+      /**  if (commitsBlogs.videoUrl != null && commitsBlogs.imageUrl == null) {
             holder.videoLayout.visibility = View.VISIBLE
 
             holder.videoLayout.setOnClickListener {
@@ -178,7 +178,7 @@ class FeedsAdapter(var context: Context, var commitPosts: MutableList<CommitPost
             holder.videoLayout.layoutParams.height = Constract.dpToPx(context, 250)
         } else {
             holder.videoLayout.visibility = View.GONE
-        }
+        } **/
 
         holder.comment_holder.setOnClickListener {
             MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
