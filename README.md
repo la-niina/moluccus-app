@@ -8,31 +8,69 @@ Moluccus is designed with the latest technology stack and utilizes the Firebase 
 
 ## Screenshots
 
-<div style="overflow-x:auto;">
-  <table style="width:100%">
-    <tr>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/1.PNG" alt="1.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/2.PNG" alt="2.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/3.PNG" alt="3.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/4.PNG" alt="4.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/5.PNG" alt="5.PNG" style="max-width:100%;height:auto;"></td>
-    </tr>
-    <tr>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/6.PNG" alt="6.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/7.PNG" alt="7.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/8.PNG" alt="8.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/9.PNG" alt="9.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/10.PNG" alt="10.PNG" style="max-width:100%;height:auto;"></td>
-    </tr>
-    <tr>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/11.PNG" alt="11.PNG" style="max-width:100%;height:auto;"></td>
-      <td style="text-align:center"><img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/12.PNG" alt="12.PNG" style="max-width:100%;height:auto;"></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/1.PNG" alt="1.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/2.PNG" alt="2.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/3.PNG" alt="3.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/4.PNG" alt="4.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/5.PNG" alt="5.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/6.PNG" alt="6.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/7.PNG" alt="7.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/8.PNG" alt="8.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/9.PNG" alt="9.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/10.PNG" alt="10.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/11.PNG" alt="11.PNG">
+    </div>
+    <div class="col">
+      <img src="https://raw.githubusercontent.com/la-niina/moluccus-app/master/screenshots/12.PNG" alt="12.PNG">
+    </div>
+  </div>
 </div>
+
+<style>
+  /* Mobile view: 2 columns */
+  @media (max-width: 767px) {
+    .col {
+      width: 50%;
+    }
+  }
+
+  /* Tablet view: 3 columns */
+  @media (min-width: 768px) and (max-width: 991px) {
+    .col {
+      width: 33.33%;
+    }
+  }
+
+  /* Desktop view: 4 columns */
+  @media (min-width: 992px) {
+    .col {
+      width: 25%;
+    }
+  }
+</style>
 
 
 ## Features
